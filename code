@@ -1,0 +1,47 @@
+//**obj_player** Create Event
+walkingSpeed = 3;
+
+
+
+//**obj_player** Step Event
+//Player Movement
+hspeed = walkingSpeed * (keyboard_check(vk_right) - keyboard_check(vk_left)); 
+//or WASD keys = keyboard_check(ord('D')) - keyboard_check(ord('A'));
+
+vspeed = walkingSpeed * (keyboard_check(vk_down) - keyboard_check(vk_up));
+//of WASD keys = keyboard_check(ord('S')) - keyboard_check(ord('W'));
+
+//Collisions
+if hspeed != 0
+if !place_free(x + hspeed, y)
+{
+    if hspeed > 0 move_contact_solid(0, hspeed);
+    if hspeed < 0 move_contact_solid(180, -hspeed);
+    hspeed = 0
+}
+
+if vspeed != 0
+if !place_free(x, y + vspeed)
+{
+    if vspeed > 0 move_contact_solid(270, vspeed);
+    if vspeed < 0 move_contact_solid(90, -vspeed);
+    vspeed = 0
+}
+
+
+
+//**obj_player** Draw Event
+draw_self();
+
+draw_set_color(c_white);
+draw_text(obj_player.x-25, obj_player.y-25, distance_to_object(obj_portal));
+
+
+
+//**obj_wall** Create Event
+image_index = choose(1,2,3,4);
+
+
+
+//**obj_portal** Collision with obj_player
+room_goto_next();
